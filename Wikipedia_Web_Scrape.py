@@ -29,6 +29,7 @@ def find_table_by_header_list(soup, headers_list, table_class=None):
     return None
 
 def get_season_appearances_dataframe(season_number, all_stars=False):
+    
     # Get url and season name
     if all_stars:
         url = 'https://en.wikipedia.org/wiki/RuPaul%27s_Drag_Race_All_Stars_(season_' + str(season_number) + ')'
@@ -36,7 +37,7 @@ def get_season_appearances_dataframe(season_number, all_stars=False):
     else:
         url = 'https://en.wikipedia.org/wiki/RuPaul%27s_Drag_Race_(season_' + str(season_number) + ')'
         season_name = 'Season ' + str(season_number)
-    print('Retrieving details for: ' + season_name + '.')
+    print('Retrieving details for ' + season_name + '.')
         
     # Get beautiful soup object
     res = requests.get(url)
@@ -44,8 +45,16 @@ def get_season_appearances_dataframe(season_number, all_stars=False):
     soup = bs4.BeautifulSoup(res.text, 'lxml')
     
     # Get results table and convert to data frame
-    table = find_table_by_header_list(soup, ['Contestant', '1', '2', '3', '4'], 'wikitable')
+    table = find_table_by_header_list(soup, ['Contestant', '2', '3', '4'], 'wikitable')
     df_scraped = pd.read_html(str(table))[0]
+    
+    # Adjust scraped dataframe for All Stars 1 due to merging issues with teams
+    if season_name == 'All Stars Season 1':
+        team_names = ['Shad', 'Rujubee', 'Yarlexis', 'Latrila', 'Brown Flowers', 'Mandora']
+        for row_no in range(1, df_scraped.shape[0]):
+            if df_scraped.at[row_no, 0] in team_names:
+                df_scraped.at[row_no, 0] = df_scraped.at[row_no, 1]
+                df_scraped.at[row_no, 1] = 'nan'
     
     # Create scores data frame
     df = pd.DataFrame(columns=['Contestant', 'Season',
@@ -101,14 +110,14 @@ def get_season_appearances_dataframe(season_number, all_stars=False):
     
     return df
 
+# Initialise output dataframe and reference array for season numbers
 df = None
-
-season_details = [[1, False], [2, False], #[3, False], 
-                  [4, False], 
+season_details = [[1, False], [2, False], [3, False], [4, False], 
                   [5, False], [6, False], [7, False], [8, False],
-                  [9, False], [10, False], [11, False], [12, False], #[1, True], 
-                  [2, True], [3, True], [4, True], ]
+                  [9, False], [10, False], [11, False], [12, False],
+                  [1, True], [2, True], [3, True], [4, True], ]
 
+# Get metrics for each season and append to dataframe
 for season in season_details:
     df_new = get_season_appearances_dataframe(season[0], season[1])
     if df is None:
