@@ -12,16 +12,23 @@ def get_follower_count(insta_handle, browser):
     # Get follower count displayed text (e.g. '931k', '1.1m')
     elems = browser.find_elements_by_tag_name("a")
     for elem in elems:
-        if elem.text.endswith(' followers') : follower_count_text = elem.text[:len(elem.text) - len(' followers')]
+        follower_count_text = elem.text
+        if follower_count_text.endswith(' followers') : break
+        follower_count_text = ''
+    # Return -1 for error if not found
+    if follower_count_text == '' : return -1
+    follower_count_text = follower_count_text[:len(follower_count_text) - len(' followers')]
     
     # Used displayed text to find actual underlying follower count (e.g. '931,083', '1,103,473')
     elems = browser.find_elements_by_tag_name('span')
     for elem in elems:
         if elem.text==follower_count_text : follower_count = elem.get_attribute('title')
+    # Return -1 for error if not found
+    if follower_count is None : return -1
         
     # Convert to integer and return
     follower_count = int(follower_count.replace(',', ''))
-    return (follower_count)
+    return follower_count
 
 # Initialise Instagram URL and browser object
 url_prefix = 'https://www.instagram.com/'
