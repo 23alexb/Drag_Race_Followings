@@ -27,17 +27,23 @@ def find_table_by_header_list(soup, headers_list, table_class=None):
         if match : return (table)
     
     return None
-
-def get_season_appearances_dataframe(season_number, all_stars=False):
     
-    # Get url and season name
+def get_season_url(season_number, all_stars):
+    # Returns [url, season_name] for a season given season number and all stars status
     if all_stars:
         url = 'https://en.wikipedia.org/wiki/RuPaul%27s_Drag_Race_All_Stars_(season_' + str(season_number) + ')'
         season_name = 'All Stars Season ' + str(season_number)
     else:
         url = 'https://en.wikipedia.org/wiki/RuPaul%27s_Drag_Race_(season_' + str(season_number) + ')'
         season_name = 'Season ' + str(season_number)
-    print('Retrieving details for ' + season_name + '.')
+    
+    return [url, season_name]
+
+def get_season_appearances_dataframe(season_number, all_stars=False, display_progress_alerts=True):
+    
+    # Get url and season name
+    [url, season_name] = get_season_url(season_number, all_stars)
+    if display_progress_alerts : print('Retrieving details for ' + season_name + '.')
         
     # Get beautiful soup object
     res = requests.get(url)
@@ -80,6 +86,7 @@ def get_season_appearances_dataframe(season_number, all_stars=False):
                      'GUEST' : 'Guest',
                      'JUROR' : 'Guest',
                      'WINNER' : 'Season Winner',
+                     'WINNERS' : 'Season Winner',
                      'RUNNER-UP' : 'Season Runner-Up',
                      'ELIMINATED' : 'Eliminated',
                      'DISQ' : 'Eliminated',
@@ -110,17 +117,22 @@ def get_season_appearances_dataframe(season_number, all_stars=False):
     
     return df
 
-# Initialise output dataframe and reference array for season numbers
-df = None
-season_details = [[1, False], [2, False], [3, False], [4, False], 
-                  [5, False], [6, False], [7, False], [8, False],
-                  [9, False], [10, False], [11, False], [12, False],
-                  [1, True], [2, True], [3, True], [4, True], ]
-
-# Get metrics for each season and append to dataframe
-for season in season_details:
-    df_new = get_season_appearances_dataframe(season[0], season[1])
-    if df is None:
-        df = df_new
-    else:
-        df = pd.concat([df, df_new])
+def get_episode_metrics(display_progress_alerts=True):
+    # Initialise output dataframe and reference array for season numbers
+    df = None
+    season_details = [[1, False], [2, False], [3, False], [4, False], 
+                      [5, False], [6, False], [7, False], [8, False],
+                      [9, False], [10, False], [11, False], [12, False],
+                      [1, True], [2, True], [3, True], [4, True], ]
+    
+    # Get metrics for each season and append to dataframe
+    for season in season_details:
+        df_new = get_season_appearances_dataframe(season[0], season[1], display_progress_alerts)
+        if df is None:
+            df = df_new
+        else:
+            df = pd.concat([df, df_new])
+            
+    # Reset index and return
+    df = df.reset_index(drop=True)
+    return (df)

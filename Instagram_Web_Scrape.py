@@ -94,6 +94,3 @@ def add_handle_to_csv(contestant_name, handle):
     # Save and return
     df.to_csv(insta_handles_csv, index=False)
     return
-
-    
-df = get_follower_counts_from_csv_list()
