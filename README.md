@@ -2,7 +2,8 @@
 Development of machine learning models to:
   - Predict follower count of RuPaul's Drag Race contestants based on in-show metrics
   - Predict whether or not a contestant is selected for/wins RuPaul's Drag Race All Stars based on in-show metrics
-Including web scrapers for collection of data from Instagram and Wikipedia.
+
+Includes web scrapers for collection of data from Instagram and Wikipedia.
 All code written in Python with Spyder and Jupyter.
 
 Components uploaded so far:
