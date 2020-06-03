@@ -92,6 +92,7 @@ def get_season_appearances_dataframe(season_number, all_stars=False, display_pro
                      'DISQ' : 'Eliminated',
                      'REM' : 'Eliminated',
                      'QUIT' : 'Eliminated',
+                     'IMUN' : 'Safe',
                      'MISS C' : 'Season Miss Congeniality',
                      }
     
