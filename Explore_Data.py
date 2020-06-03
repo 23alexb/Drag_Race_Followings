@@ -26,12 +26,12 @@ def get_pearson_correlations (model_data, dv, feature_columns):
 
     return df
     
-def get_confusion_matrix (model_data, feature_cols, dependent_variable, test_size=0.25):                
+def get_confusion_matrix (model_data, feature_cols, dependent_variable, seed_val=0, test_size=0.25):                
     X = model_data[feature_cols]
     y = model_data[dependent_variable]
     
     # Split into train and test set
-    X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=test_size,random_state=0)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=seed_val)
     
     # Instantiate the model
     lr = LogisticRegression()
