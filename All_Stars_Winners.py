@@ -11,7 +11,6 @@ based on main season metrics.
 """
 
 import pandas as pd
-import imblearn
 from scipy.stats.stats import pearsonr
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
@@ -29,7 +28,7 @@ feature_cols = [ 'Win', 'High', 'Safe', 'Low', 'Bottom', 'Eliminated', 'Guest',
 feature_cols_selected = [ 'High', 'Safe', 'Guest', 'Season Winner', 'Season Runner-Up', 
                           'Season Miss Congeniality', 'Years Since Last Competed' ]
 
-#dependent_variable = 'Competed' 
+dependent_variable = 'Competed'
 #test_size = 0.25
 #seed_val = 0
 #                        
@@ -47,6 +46,9 @@ feature_cols_selected = [ 'High', 'Safe', 'Guest', 'Season Winner', 'Season Runn
 #
 #print(cnf_matrix)
 
+
+    
+oversampled_df = get_oversampled_df (model_data, feature_cols, dependent_variable)
 
 
 

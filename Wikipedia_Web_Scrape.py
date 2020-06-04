@@ -90,6 +90,7 @@ def get_season_appearances_dataframe(season_number, all_stars=False, display_pro
                      'RUNNER-UP' : 'Season Runner-Up',
                      'ELIMINATED' : 'Eliminated',
                      'DISQ' : 'Eliminated',
+                     'DQ' : 'Eliminated',
                      'REM' : 'Eliminated',
                      'QUIT' : 'Eliminated',
                      'IMUN' : 'Safe',
@@ -112,7 +113,7 @@ def get_season_appearances_dataframe(season_number, all_stars=False, display_pro
                 df.at[row_no, results_dict[result]] += 1
                 total_appearances += 1
             elif result not in ['NAN']:
-                print('Unclassified: ' + result + '(' + season_name + ')')
+                print('Unclassified: ' + result + ' (' + season_name + ')')
                 
         # Add number of total appearances to dataframe
         df.at[row_no, 'Total Appearances'] = total_appearances

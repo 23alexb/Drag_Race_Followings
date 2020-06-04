@@ -25,7 +25,9 @@ def normalize_series_contestant_data(season_metrics):
     
     # Normalize names for queens that appear more than once
     names_replace_dict = { 'Shangela Laquifa Wadley' : 'Shangela',
-                           'Trinity Taylor' : 'Trinity the Tuck' }
+                           'Trinity Taylor' : 'Trinity the Tuck',
+                           'Shea Couleé' : 'Shea Coulee',
+                           'Phi Phi O’Hara' : 'Phi Phi O\'Hara' }
     season_metrics['Contestant'] = season_metrics['Contestant'].replace(names_replace_dict)
         
     # Get list of contestants that appear twice, merge records and use most recent season
@@ -82,10 +84,13 @@ def get_all_stars_selection_model_data(all_stars_seasons):
                                        'All Stars Season', 'Winner', 'Finalist', 'Competed'])
     
     # Get selection metrics for each all stars season
-    for _ in all_stars_seasons : model_data = pd.concat([model_data, get_all_stars_season_selection(_, season_data, wiki_metrics)])
+    if type(all_stars_seasons) == int:
+        model_data = pd.concat([model_data, get_all_stars_season_selection(all_stars_seasons, season_data, wiki_metrics)])
+    else:
+        for _ in all_stars_seasons : model_data = pd.concat([model_data, get_all_stars_season_selection(_, season_data, wiki_metrics)])
     model_data = model_data.rename(columns={'Year' : 'Years Since Last Competed'})
-    
-    # Convert boolean variables to integer
     for _ in ['Winner', 'Finalist', 'Competed'] : model_data[_] = (model_data[_]==True).astype(int)
     
     return model_data
+    
+model_data_season_5 = get_all_stars_selection_model_data(5)
