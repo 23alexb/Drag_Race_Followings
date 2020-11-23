@@ -1,4 +1,4 @@
-# Drag_Race_Followings
+# RuPaul's Drag Race: What Makes an All Star?
 Development of machine learning models to predict whether or not a contestant is selected for/wins RuPaul's Drag Race All Stars based on in-show metrics
 
 Includes web scrapers for collection of data from Instagram and Wikipedia.
