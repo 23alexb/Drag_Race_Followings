@@ -1,7 +1,5 @@
 # Drag_Race_Followings
-Development of machine learning models to:
-  - Predict follower count of RuPaul's Drag Race contestants based on in-show metrics
-  - Predict whether or not a contestant is selected for/wins RuPaul's Drag Race All Stars based on in-show metrics
+Development of machine learning models to predict whether or not a contestant is selected for/wins RuPaul's Drag Race All Stars based on in-show metrics
 
 Includes web scrapers for collection of data from Instagram and Wikipedia.
 All code written in Python with Spyder and Jupyter.
@@ -13,3 +11,7 @@ Components uploaded so far:
   - Functions to explore data and get common statistical output, such as correlations, p-values, and confusion matrices
     ('Explore_Data.py')
   - Jupyter Notebook for All Stars analysis ('What Makes an All Star?.ipynb')
+
+To view the analysis, read the "What Makes an All Star?.ipynb" Jupyter Notebook. This was compiled shortly after the cast of All Stars Season 5 was announced.
+The analysis is supplemented by provided .csv files, as well as the Python modules used to scrape data from the web.
+Issues may occur over time as people edit the Wikipedia page in a way that the 'Wikipedia_Web_Scrape.py' module was not designed to process.
